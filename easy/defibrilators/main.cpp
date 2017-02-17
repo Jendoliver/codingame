@@ -18,11 +18,19 @@ int main()
     cin >> N; cin.ignore();
     
     vector info;
+    float dist;
+    float mindist = 1000000;
+    int index;
     for (int i = 0; i < N; i++) 
     {
         string DEFIB;
         getline(cin, DEFIB);
         info = getInfo(DEFIB);
+        dist = getDist(getX(),getY());
+        if(dist < mindist)
+        {
+            mindist = dist;
+        }
     }
 
     // Write an action using cout. DON'T FORGET THE "<< endl"
@@ -41,7 +49,17 @@ float stofwcom(string in)
     return stof(in);
 }
 
-float getX(float lon, float lat)
+float getX(float lonA, float lonB, float latA, float latB)
+{
+    
+}
+
+float getY(float latA, float latB)
+{
+    
+}
+
+float getDist(float x, float y)
 {
     
 }
