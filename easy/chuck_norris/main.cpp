@@ -2,80 +2,74 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <stdio.h>
-#include <stdlib.h>
 
 using namespace std;
-void reverse(char str[], int length);
-char* itoa(int num, char* str, int base);
+string toBinary(int x);
 
-/**
- * Auto-generated code below aims at helping you parse
- * the standard input according to the problem statement.
- **/
 int main()
 {
     string MESSAGE;
-    char BINARY[100];
+    string BINARY;
     getline(cin, MESSAGE);
 
-    for(int i=0; i<MESSAGE.size(); i++) // string to binary
-        string(BINARY) += itoa((int)MESSAGE[i], BINARY, 2);
+    for(int i=0; i<MESSAGE.size(); i++)
+    {
+        BINARY += toBinary((int)MESSAGE[i]);
+    }
     
-    cerr << BINARY << endl;
+    cerr << toUnary(BINARY) << endl;
+
+    cout << BINARY << endl;
 }
 
-/* A utility function to reverse a string  */
-void reverse(char str[], int length)
+string toBinary(int x)
 {
-    int start = 0;
-    int end = length -1;
-    while (start < end)
+    string aux, res;
+    
+    do
     {
-        swap(*(str+start), *(str+end));
-        start++;
-        end--;
+        aux += to_string(x % 2);
+        x = x/2;
+        
+    } while(x > 1);
+    
+    aux += to_string(x % 2);
+    
+    for(int i = 0; i < aux.size(); i++)
+    {
+        res += aux[aux.size()-1-i];
     }
+    
+    cout << res << endl;
+    return res;
 }
- 
-// Implementation of itoa()
-char* itoa(int num, char* str, int base)
+
+string toUnary(string bin)
 {
-    int i = 0;
-    bool isNegative = false;
- 
-    /* Handle 0 explicitely, otherwise empty string is printed for 0 */
-    if (num == 0)
+    string res;
+    int i=0;
+    while(i<bin.size())
     {
-        str[i++] = '0';
-        str[i] = '\0';
-        return str;
+        if(bin[i])
+        {
+            res += "0 ";
+            do
+            {
+                res += '0';
+                i++;
+            } while (bin[i+1] || bin.size());
+            res += ' '; 
+        }
+        else
+        {
+            res += "00 ";
+            do
+            {
+                res += '0';
+                i++;
+            } while (!bin[i+1] || bin.size());
+            res += ' '; 
+        }
     }
- 
-    // In standard itoa(), negative numbers are handled only with 
-    // base 10. Otherwise numbers are considered unsigned.
-    if (num < 0 && base == 10)
-    {
-        isNegative = true;
-        num = -num;
-    }
- 
-    // Process individual digits
-    while (num != 0)
-    {
-        int rem = num % base;
-        str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
-        num = num/base;
-    }
- 
-    // If number is negative, append '-'
-    if (isNegative)
-        str[i++] = '-';
- 
-    str[i] = '\0'; // Append string terminator
- 
-    // Reverse the string
-    reverse(str, i);
- 
-    return str;
+    return res;
 }
